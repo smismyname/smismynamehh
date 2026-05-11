@@ -153,57 +153,86 @@ def fig_etch_formation():
 
 
 # =========================================================
-# Fig 4. PEDOT 聚合示意 + 化学结构
+# Fig 4. PEDOT polymerization schematic + chemical structure
 # =========================================================
 def fig_pedot_chem():
-    fig, axs = plt.subplots(1, 2, figsize=(10.5, 4))
+    fig, axs = plt.subplots(1, 2, figsize=(11, 5))
 
-    # (a) EDOT monomer 与 PEDOT 重复单元
+    # (a) EDOT monomer -> PEDOT reaction scheme
     ax = axs[0]
     ax.set_xlim(0, 10)
-    ax.set_ylim(0, 5)
+    ax.set_ylim(0, 6)
     ax.set_aspect('equal')
     ax.axis('off')
-    # 用文字简化表达 - 真实结构用 text 标记
-    ax.text(2.5, 3.8, 'EDOT monomer', ha='center', fontsize=11, fontweight='bold')
-    ax.text(2.5, 2.7, r"$\mathrm{C_6H_6O_2S}$", ha='center', fontsize=14)
-    ax.text(2.5, 2.0, '(3,4-ethylenedioxy-\nthiophene)', ha='center', fontsize=9)
 
-    ax.annotate('', xy=(6.5, 2.8), xytext=(4.0, 2.8),
-                arrowprops=dict(arrowstyle='->', lw=2, color='#1e3a8a'))
-    ax.text(5.0, 3.3, 'Polymerization', fontsize=10, color='#1e3a8a', fontweight='bold')
-    ax.text(5.0, 2.4, '(Fe³⁺ oxidant / VPP)', fontsize=9, color='#1e3a8a')
+    # EDOT monomer box
+    ax.add_patch(FancyBboxPatch((0.3, 3.0), 3.2, 2.5, boxstyle="round,pad=0.1",
+                                fc='#eff6ff', ec='#1d4ed8', lw=1.5))
+    ax.text(1.9, 5.1, 'EDOT monomer', ha='center', fontsize=11, fontweight='bold', color='#1d4ed8')
+    ax.text(1.9, 4.3, r'$\mathrm{C_6H_6O_2S}$', ha='center', fontsize=13)
+    ax.text(1.9, 3.6, '(3,4-ethylenedioxy-\nthiophene)', ha='center', fontsize=9)
 
-    ax.text(8.2, 3.8, 'PEDOT', ha='center', fontsize=11, fontweight='bold')
-    ax.text(8.2, 2.7, r"$\mathrm{[C_6H_4O_2S]_n^{+} \cdot A^{-}}$", ha='center', fontsize=13)
-    ax.text(8.2, 2.0, 'p-doped conductive\npolymer, σ ≈ 10²–10³ S/cm', ha='center', fontsize=9)
-    ax.text(5, 0.3, '(a) PEDOT synthesis from EDOT', ha='center', fontsize=10)
+    # Arrow
+    ax.annotate('', xy=(6.8, 4.3), xytext=(3.8, 4.3),
+                arrowprops=dict(arrowstyle='->', lw=2.5, color='#dc2626'))
+    ax.text(5.3, 4.9, 'Oxidative\nPolymerization', fontsize=10, color='#dc2626',
+            fontweight='bold', ha='center')
+    ax.text(5.3, 3.7, r'$\mathrm{Fe^{3+}(OTs)_3}$' + '\nor VPP', fontsize=9,
+            color='#dc2626', ha='center')
 
-    # (b) 两种工艺对比
+    # PEDOT product box
+    ax.add_patch(FancyBboxPatch((7.0, 3.0), 2.8, 2.5, boxstyle="round,pad=0.1",
+                                fc='#fef2f2', ec='#991b1b', lw=1.5))
+    ax.text(8.4, 5.1, 'PEDOT (p-doped)', ha='center', fontsize=11, fontweight='bold', color='#991b1b')
+    ax.text(8.4, 4.3, r'$\mathrm{[C_6H_4O_2S]_n^+ \cdot A^-}$', ha='center', fontsize=12)
+    ax.text(8.4, 3.5, r'$\sigma \approx 10^2 - 10^3$ S/cm', ha='center', fontsize=9.5)
+
+    # Reaction equation at bottom
+    ax.text(5.0, 2.2, r'n EDOT + n $\mathrm{A^-}$ $\longrightarrow$ '
+            r'$\mathrm{PEDOT^{n+} \cdot nA^-}$ + 2n $\mathrm{H^+}$ + 2n $\mathrm{e^-}$',
+            ha='center', fontsize=10, style='italic')
+    ax.text(5.0, 1.4, r'where $\mathrm{A^-}$ = Tos$^-$ (p-toluenesulfonate) or PSS$^-$',
+            ha='center', fontsize=9, color='#4b5563')
+    ax.text(5.0, 0.5, '(a) PEDOT synthesis reaction', ha='center', fontsize=10.5, fontweight='bold')
+
+    # (b) Three deposition routes comparison
     ax = axs[1]
     ax.set_xlim(0, 10)
-    ax.set_ylim(0, 5)
+    ax.set_ylim(0, 6)
     ax.set_aspect('equal')
     ax.axis('off')
-    ax.add_patch(Rectangle((0.3, 2.5), 4.6, 2.2, fc='#dbeafe', ec='#1e3a8a', lw=1.2))
-    ax.text(2.6, 4.3, 'In-situ Polymerization', ha='center', fontsize=10, fontweight='bold', color='#1e3a8a')
-    ax.text(2.6, 3.5, 'EDOT + Fe(OTs)₃\n→ PEDOT:Tos\nconductivity ≈ 200–500 S/cm\nthickness fill ratio: HIGH', ha='center', fontsize=8.5)
 
-    ax.add_patch(Rectangle((5.2, 2.5), 4.5, 2.2, fc='#fef3c7', ec='#92400e', lw=1.2))
-    ax.text(7.45, 4.3, 'Pre-polymerized Dispersion\n(PEDOT:PSS)', ha='center', fontsize=10,
+    # In-situ box
+    ax.add_patch(FancyBboxPatch((0.2, 4.0), 4.5, 1.7, boxstyle="round,pad=0.05",
+                                fc='#dbeafe', ec='#1e40af', lw=1.3))
+    ax.text(2.45, 5.3, 'In-situ Chemical Polymerization', ha='center', fontsize=9.5,
+            fontweight='bold', color='#1e40af')
+    ax.text(2.45, 4.7, r'EDOT + $\mathrm{Fe(OTs)_3}$ in alcohol'
+            '\n' + r'$\sigma$ = 200-500 S/cm, Fill: HIGH', ha='center', fontsize=8.5)
+
+    # Pre-polymerized box
+    ax.add_patch(FancyBboxPatch((5.3, 4.0), 4.5, 1.7, boxstyle="round,pad=0.05",
+                                fc='#fef3c7', ec='#92400e', lw=1.3))
+    ax.text(7.55, 5.3, 'Pre-polymerized Dispersion', ha='center', fontsize=9.5,
             fontweight='bold', color='#92400e')
-    ax.text(7.45, 3.4, 'PSS-doped aqueous disp.\nσ ≈ 0.1–100 S/cm\nthickness: SHALLOW\n(good humidity stability)',
-            ha='center', fontsize=8.5)
+    ax.text(7.55, 4.7, 'PEDOT:PSS aqueous colloid\n'
+            r'$\sigma$ = 0.1-100 S/cm, Fill: LOW', ha='center', fontsize=8.5)
 
-    ax.add_patch(Rectangle((0.3, 0.5), 9.4, 1.6, fc='#dcfce7', ec='#166534', lw=1.2))
-    ax.text(5, 1.65, 'Vapor-Phase Polymerization (VPP)', ha='center', fontsize=10,
+    # VPP box
+    ax.add_patch(FancyBboxPatch((0.2, 1.8), 9.6, 1.8, boxstyle="round,pad=0.05",
+                                fc='#dcfce7', ec='#166534', lw=1.3))
+    ax.text(5.0, 3.2, 'Vapor-Phase Polymerization (VPP)', ha='center', fontsize=10,
             fontweight='bold', color='#166534')
-    ax.text(5, 0.95, 'EDOT vapor + Fe(OTs)₃ film on anode → high σ (>1000 S/cm), good pore filling\n'
-                     '(Shi et al., J Mater Sci: Mater Electron, 2021)', ha='center', fontsize=8.5)
-    ax.text(5, -0.1, '(b) Three major PEDOT deposition routes', ha='center', fontsize=10)
+    ax.text(5.0, 2.5, r'EDOT vapor + $\mathrm{Fe(OTs)_3}$ film on anode surface'
+            '\n' + r'$\sigma$ > 1000 S/cm, Fill: VERY HIGH'
+            '\n(Shi et al., J Mater Sci Mater Electron, 2021 [28])', ha='center', fontsize=8.5)
+
+    ax.text(5.0, 0.8, '(b) Three major PEDOT deposition routes for SAPC cathodes',
+            ha='center', fontsize=10.5, fontweight='bold')
 
     plt.suptitle('Fig. 4  PEDOT Chemistry and Deposition Methods for SAPC Cathodes',
-                 fontsize=11, fontweight='bold', y=1.02)
+                 fontsize=11.5, fontweight='bold', y=0.98)
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
     save(fig, 'fig04_pedot_chem.png')
 
 
@@ -601,3 +630,283 @@ if __name__ == "__main__":
     fig_rul()
     fig_apps()
     print("All figures generated.")
+
+
+
+# =========================================================
+# Fig 15. XPS S 2p deconvolution of PEDOT (characterization)
+# =========================================================
+def fig_xps_s2p():
+    fig, ax = plt.subplots(figsize=(8, 5))
+    import numpy as np
+    # x-axis: binding energy (eV)
+    be = np.linspace(161, 172, 800)
+    def g(x, x0, h, w):
+        return h * np.exp(-((x - x0) / w) ** 2)
+    # three components: neutral thiophene (163.8 eV), oxidized thiophene polaron (164.8 eV),
+    # sulfonate SO3- (168.2 eV) each a doublet S2p3/2 & S2p1/2
+    y_neu = g(be, 163.8, 0.45, 0.5) + g(be, 165.0, 0.23, 0.5)
+    y_ox  = g(be, 164.8, 0.30, 0.55) + g(be, 166.0, 0.15, 0.55)
+    y_so3 = g(be, 168.2, 0.70, 0.65) + g(be, 169.4, 0.35, 0.65)
+    total = y_neu + y_ox + y_so3 + 0.02*np.random.RandomState(1).randn(len(be))
+    total = np.clip(total, 0, None)
+
+    ax.fill_between(be, y_neu, alpha=0.35, color='#2563eb', label=r'Neutral thiophene S (163.8 eV)')
+    ax.fill_between(be, y_ox, alpha=0.35, color='#dc2626', label=r'Polaron/oxidized S (164.8 eV)')
+    ax.fill_between(be, y_so3, alpha=0.35, color='#16a34a', label=r'$\mathrm{SO_3^-}$ dopant (168.2 eV)')
+    ax.plot(be, total, 'k-', lw=1.3, label='Measured envelope')
+    ax.invert_xaxis()
+    ax.set_xlabel('Binding Energy / eV', fontsize=11)
+    ax.set_ylabel('Intensity / a.u.', fontsize=11)
+    ax.set_title('Fig. 15  XPS S 2p Deconvolution of PEDOT Cathode in SAPC', fontsize=11.5, fontweight='bold')
+    ax.legend(fontsize=9, loc='upper left')
+    ax.grid(alpha=0.25)
+    ax.text(0.55, 0.60,
+            'doping level\n= [Ox]/([Ox]+[Neu])',
+            transform=ax.transAxes, fontsize=9.5,
+            bbox=dict(boxstyle='round,pad=0.4', fc='#fef3c7', ec='#92400e', lw=0.8))
+    save(fig, 'fig15_xps_s2p.png')
+
+
+# =========================================================
+# Fig 16. Raman spectrum of PEDOT (doping state)
+# =========================================================
+def fig_raman_pedot():
+    fig, ax = plt.subplots(figsize=(8, 5))
+    import numpy as np
+    wn = np.linspace(800, 1700, 900)
+    def g(x, x0, h, w):
+        return h * np.exp(-((x - x0) / w) ** 2)
+    # Fresh PEDOT (fully doped)
+    y_fresh = (g(wn, 1440, 0.95, 18) + g(wn, 1500, 0.55, 22) + g(wn, 1365, 0.35, 22)
+               + g(wn, 1268, 0.25, 22) + g(wn, 990, 0.30, 22) + g(wn, 850, 0.18, 22))
+    # Aged PEDOT (partially de-doped, red-shifted, broadened)
+    y_aged  = (g(wn, 1428, 0.55, 38) + g(wn, 1488, 0.35, 30) + g(wn, 1360, 0.30, 28)
+               + g(wn, 1260, 0.22, 26) + g(wn, 990, 0.25, 22) + g(wn, 850, 0.16, 22)
+               + g(wn, 1350, 0.18, 45) + g(wn, 1580, 0.20, 50))  # emerging D/G
+    ax.plot(wn, y_fresh + 0.3, 'b-', lw=1.4, label='Fresh (fully p-doped)')
+    ax.plot(wn, y_aged, 'r-', lw=1.4, label='After 85°C/85%RH 1500h')
+    # annotate peaks
+    peaks = [(1440, 'Cα=Cβ sym. stretch'),
+             (1500, 'Cα=Cβ asym.'),
+             (1365, 'Cβ-Cβ'),
+             (1268, 'Cα-Cα\' inter-ring'),
+             (1350, 'D band (amorph. C)'),
+             (1580, 'G band')]
+    for x, lbl in peaks:
+        ax.axvline(x, color='gray', linestyle=':', alpha=0.35)
+    ax.set_xlabel(r'Raman shift / cm$^{-1}$', fontsize=11)
+    ax.set_ylabel('Intensity / a.u.', fontsize=11)
+    ax.set_title('Fig. 16  Raman Spectrum of PEDOT: Fresh vs Aged SAPC', fontsize=11.5, fontweight='bold')
+    ax.legend(fontsize=10)
+    ax.grid(alpha=0.25)
+    ax.annotate('Red-shift &\nbroadening\n(de-doping)',
+                xy=(1430, 0.55), xytext=(1100, 0.85),
+                fontsize=9, color='red',
+                arrowprops=dict(arrowstyle='->', color='red'))
+    ax.annotate('Emerging D/G bands\n(local carbonization)',
+                xy=(1470, 0.20), xytext=(1500, 0.05),
+                fontsize=9, color='red',
+                arrowprops=dict(arrowstyle='->', color='red'))
+    save(fig, 'fig16_raman.png')
+
+
+# =========================================================
+# Fig 17. Bode plot of SAPC EIS aging
+# =========================================================
+def fig_bode():
+    fig, ax1 = plt.subplots(figsize=(8, 5))
+    import numpy as np
+    f = np.logspace(-1, 6, 300)
+    w = 2 * np.pi * f
+
+    def bode(Rs, Rp, Cp, L, Cb):
+        Z = Rs + 1j*w*L + Rp/(1 + 1j*w*Rp*Cp) + 1/(1j*w*Cb)
+        return np.abs(Z), np.angle(Z, deg=True)
+
+    m0, p0 = bode(0.010, 0.020, 5e-5, 3e-9, 470e-6)
+    m1, p1 = bode(0.025, 0.080, 1.5e-4, 3e-9, 465e-6)
+    m2, p2 = bode(0.050, 0.30,  3e-4, 3e-9, 420e-6)
+
+    for m, p, c, lbl in [(m0, p0, 'blue', 't = 0 h'),
+                          (m1, p1, 'green', 't = 500 h'),
+                          (m2, p2, 'red', 't = 1500 h')]:
+        ax1.loglog(f, m*1000, color=c, lw=1.8, label=lbl)
+
+    ax1.set_xlabel('Frequency / Hz', fontsize=11)
+    ax1.set_ylabel(r'|Z| / m$\Omega$', fontsize=11, color='black')
+    ax1.grid(True, which='both', alpha=0.25)
+    ax1.legend(loc='upper right', fontsize=9, title='|Z|')
+
+    ax2 = ax1.twinx()
+    for p, c in [(p0, 'blue'), (p1, 'green'), (p2, 'red')]:
+        ax2.semilogx(f, p, color=c, lw=1.2, linestyle='--', alpha=0.7)
+    ax2.set_ylabel(r'Phase $\phi$ / °', fontsize=11, color='gray')
+    ax2.set_ylim(-95, 95)
+    ax2.tick_params(axis='y', colors='gray')
+
+    ax1.set_title('Fig. 17  Bode Plot of SAPC under 85°C/85%RH Aging\n'
+                  '(after Liu & Pecht, IEEE T-CPMT, 2017)',
+                  fontsize=11.5, fontweight='bold')
+    save(fig, 'fig17_bode.png')
+
+
+# =========================================================
+# Fig 18. Micro-CT concept + sample slice schematic
+# =========================================================
+def fig_microct():
+    fig, axs = plt.subplots(1, 2, figsize=(12, 5))
+
+    # (a) Principle schematic
+    ax = axs[0]
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 8)
+    ax.set_aspect('equal')
+    ax.axis('off')
+    ax.add_patch(Rectangle((0.3, 3.5), 1.6, 1.0, fc='#6b7280', ec='black', lw=1.2))
+    ax.text(1.1, 4.0, 'X-ray\ntube', ha='center', va='center', fontsize=9, color='white', fontweight='bold')
+    # sample
+    ax.add_patch(FancyBboxPatch((4.5, 3.3), 1.4, 1.4, boxstyle="round,pad=0.05", fc='#fbbf24', ec='black', lw=1.2))
+    ax.text(5.2, 4.0, 'SAPC', ha='center', va='center', fontsize=9, fontweight='bold')
+    # rotation arrow
+    from matplotlib.patches import FancyArrowPatch as FAP
+    ax.add_patch(FAP((5.2, 5.0), (5.9, 4.4), connectionstyle="arc3,rad=0.3",
+                     arrowstyle='->', color='green', lw=1.8))
+    ax.text(6.2, 5.1, 'θ rotation\n(0–360°)', fontsize=8, color='green')
+    # detector
+    ax.add_patch(Rectangle((8.1, 2.5), 1.4, 3.0, fc='#1e3a8a', ec='black', lw=1.2))
+    ax.text(8.8, 4.0, 'Flat-panel\ndetector', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
+    # X-ray cone
+    import matplotlib.patches as mpatches
+    ax.add_patch(mpatches.Polygon([[1.9, 4.0], [8.1, 3.0], [8.1, 5.0]], fc='yellow', alpha=0.2, ec='none'))
+    ax.text(3.5, 4.7, 'X-ray beam', fontsize=9, color='#92400e')
+    # caption
+    ax.text(5.0, 7.2, r'$I(x) = I_0 \cdot \exp[-\int \mu(x\,)\, dx\,]$', fontsize=11,
+            ha='center', fontweight='bold')
+    ax.text(5.0, 1.3, '(a) Micro-CT acquisition: sample rotated through 0–360°;\n'
+            'filtered back-projection (FBP) reconstructs 3-D map of $\mu(x,y,z)$',
+            ha='center', fontsize=9)
+
+    # (b) 2D slice schematic
+    ax = axs[1]
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 8)
+    ax.set_aspect('equal')
+    ax.axis('off')
+    # epoxy body
+    ax.add_patch(Rectangle((0.5, 0.5), 9.0, 7.0, fc='#d6d3d1', ec='black', lw=1.0))
+    ax.text(5.0, 7.2, 'Reconstructed µ-CT slice (schematic)', ha='center', fontsize=10, fontweight='bold')
+    # lead-frames
+    ax.add_patch(Rectangle((0.8, 2.5), 0.6, 3.0, fc='#7f1d1d', ec='black', lw=0.6))
+    ax.add_patch(Rectangle((8.6, 2.5), 0.6, 3.0, fc='#7f1d1d', ec='black', lw=0.6))
+    # stacked Al foils
+    for k in range(6):
+        ax.add_patch(Rectangle((1.6, 2.7 + k*0.45), 6.8, 0.18, fc='#9ca3af', ec='black', lw=0.3))
+        ax.add_patch(Rectangle((1.6, 2.88 + k*0.45), 6.8, 0.27, fc='#1e3a8a', ec='none'))
+    # defect marker
+    ax.add_patch(Circle((4.0, 3.8), 0.25, fc='none', ec='red', lw=2, linestyle='--'))
+    ax.annotate('Void in\nPEDOT filling\n(Ø ≈ 80 µm)', xy=(4.0, 3.8), xytext=(2.2, 6.0),
+                fontsize=8.5, color='red',
+                arrowprops=dict(arrowstyle='->', color='red', lw=1))
+    ax.add_patch(Circle((7.0, 5.3), 0.3, fc='none', ec='red', lw=2, linestyle='--'))
+    ax.annotate('Edge\ndelamination', xy=(7.0, 5.3), xytext=(7.2, 6.5),
+                fontsize=8.5, color='red',
+                arrowprops=dict(arrowstyle='->', color='red', lw=1))
+    ax.text(5.0, 0.15, '(b) Typical features revealed in a SAPC micro-CT slice\n'
+            '(after Piao et al., SPIE 2015; Teverovsky, NASA/NEPP 2024)',
+            ha='center', fontsize=9)
+
+    plt.suptitle('Fig. 18  Micro-CT Principle and Typical SAPC Reconstruction Features',
+                 fontsize=11.5, fontweight='bold', y=1.02)
+    plt.tight_layout(rect=[0, 0, 1, 0.97])
+    save(fig, 'fig18_microct.png')
+
+
+# =========================================================
+# Fig 19. TGA curve of PEDOT in air vs N2
+# =========================================================
+def fig_tga():
+    fig, ax = plt.subplots(figsize=(8, 5))
+    import numpy as np
+    T = np.linspace(25, 600, 500)
+    def sigmoid_step(T, T_mid, width, drop):
+        return drop / (1 + np.exp((T_mid - T)/width))
+
+    # In air: 4-stage loss
+    loss_air = (sigmoid_step(T, 80, 15, 4) + sigmoid_step(T, 200, 30, 8) +
+                sigmoid_step(T, 290, 25, 30) + sigmoid_step(T, 450, 40, 35))
+    mass_air = 100 - loss_air
+    # In N2: smaller oxidation contribution
+    loss_n2 = (sigmoid_step(T, 80, 15, 4) + sigmoid_step(T, 240, 35, 6) +
+               sigmoid_step(T, 320, 30, 14) + sigmoid_step(T, 500, 50, 12))
+    mass_n2 = 100 - loss_n2
+
+    ax.plot(T, mass_air, 'r-', lw=2, label='PEDOT:PSS in air')
+    ax.plot(T, mass_n2, 'b-', lw=2, label=r'PEDOT:PSS in $\mathrm{N_2}$')
+    ax.set_xlabel('Temperature / °C', fontsize=11)
+    ax.set_ylabel('Mass / %', fontsize=11)
+    ax.set_title('Fig. 19  TGA of PEDOT:PSS Cathode Material\n'
+                 '(after Gregori et al., J Surf Eng Mater Adv Tech, 2012; Marciniak et al., Synth. Met., 2004)',
+                 fontsize=11, fontweight='bold')
+    ax.legend(fontsize=10)
+    ax.grid(alpha=0.3)
+    # stage annotations
+    ax.axvspan(25, 120, alpha=0.06, color='blue')
+    ax.text(72, 55, 'Stage 1\nH₂O desorb.', fontsize=8.5, ha='center', color='#1e3a8a')
+    ax.axvspan(120, 250, alpha=0.06, color='orange')
+    ax.text(185, 55, 'Stage 2\ndopant loss', fontsize=8.5, ha='center', color='#c2410c')
+    ax.axvspan(250, 400, alpha=0.06, color='red')
+    ax.text(325, 55, 'Stage 3\nmain chain\nscission', fontsize=8.5, ha='center', color='#991b1b')
+    ax.axvspan(400, 600, alpha=0.06, color='purple')
+    ax.text(500, 55, 'Stage 4\ncarbonization', fontsize=8.5, ha='center', color='#6b21a8')
+    ax.set_xlim(25, 600)
+    ax.set_ylim(40, 105)
+    save(fig, 'fig19_tga.png')
+
+
+# =========================================================
+# Fig 20. FT-IR spectrum of PEDOT (fresh vs aged)
+# =========================================================
+def fig_ftir():
+    fig, ax = plt.subplots(figsize=(8, 5))
+    import numpy as np
+    wn = np.linspace(600, 4000, 900)
+    def g(x, x0, h, w):
+        return h * np.exp(-((x - x0) / w) ** 2)
+    # Fresh PEDOT:PSS features
+    y_fresh = (0.95 - g(wn, 1180, 0.35, 40) - g(wn, 1080, 0.28, 35)
+               - g(wn, 1510, 0.25, 25) - g(wn, 1040, 0.22, 30)
+               - g(wn, 680, 0.18, 40) - g(wn, 3450, 0.08, 200))
+    # Aged PEDOT:PSS: C=O grows, -OH grows, S=O shrinks
+    y_aged = (0.95 - g(wn, 1180, 0.20, 40) - g(wn, 1080, 0.20, 35)
+              - g(wn, 1510, 0.20, 25) - g(wn, 1040, 0.15, 30)
+              - g(wn, 680, 0.15, 40) - g(wn, 3400, 0.28, 250)
+              - g(wn, 1720, 0.18, 30))
+    ax.plot(wn, y_fresh + 0.6, 'b-', lw=1.4, label='Fresh')
+    ax.plot(wn, y_aged, 'r-', lw=1.4, label='After 85°C/85%RH, 1500h')
+    ax.set_xlabel(r'Wavenumber / cm$^{-1}$', fontsize=11)
+    ax.set_ylabel('Transmittance (offset)', fontsize=11)
+    ax.invert_xaxis()
+    ax.set_title('Fig. 20  FT-IR Spectra of PEDOT:PSS Cathode Before and After THB Aging\n'
+                 '(after Gregori et al., 2012 [71]; Marciniak et al., Synth. Met. 2004 [23])',
+                 fontsize=10.5, fontweight='bold')
+    # peak annotations
+    anns = [(1180, 'S=O (PSS)'), (1080, 'C-O-C'),
+            (1510, 'C=C (thiophene)'), (3400, '-OH (H₂O)'), (1720, 'C=O (oxidized)')]
+    for x, lbl in anns:
+        ax.axvline(x, color='gray', linestyle=':', alpha=0.35)
+        ax.text(x, 1.25, lbl, fontsize=8, rotation=60, ha='left', color='#374151')
+    ax.legend(fontsize=10, loc='lower left')
+    ax.grid(alpha=0.25)
+    save(fig, 'fig20_ftir.png')
+
+
+if __name__ == "__main__":
+    # Newly added characterization figures:
+    fig_xps_s2p()
+    fig_raman_pedot()
+    fig_bode()
+    fig_microct()
+    fig_tga()
+    fig_ftir()
+    print("New characterization figures generated.")

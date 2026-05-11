@@ -10,7 +10,7 @@ from docx_utils import configure_page
 from chapters_part1 import build_cover, build_abstract, build_toc, build_chapter1, build_chapter2
 from chapters_part2 import build_chapter3, build_chapter4
 from chapters_part3 import build_chapter5, build_chapter6
-from chapters_part4 import build_chapter7, build_chapter8, build_conclusion, build_appendix_a, build_appendix_b, build_appendix_c, build_references
+from chapters_part4 import build_chapter7, build_chapter8, build_conclusion, build_references
 
 
 def main():
@@ -35,9 +35,6 @@ def main():
     build_chapter7(doc)
     build_chapter8(doc)
     build_conclusion(doc)
-    build_appendix_a(doc)
-    build_appendix_b(doc)
-    build_appendix_c(doc)
     build_references(doc)
 
     out = os.path.join(HERE, "..", "叠层铝固态聚合物电容器学术综述.docx")

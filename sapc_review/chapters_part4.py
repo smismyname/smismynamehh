@@ -23,7 +23,7 @@ Weibull 分布是电容器寿命数据分析的最主流工具。对 SAPC 的 TH
 CALCE 的 Liu 等 (2017) [14] 对 Nichicon 220μF/20V SAPC 在 85°C/85%RH/V_R 下的 Weibull 拟合给出 β = 2.1, η = 1800 h；对 Chemi-Con 同规格产品给出 β = 1.3, η = 650 h——两者的显著差异反映了制造工艺对寿命分布的根本性影响。图 7-1 展示了典型的 Weibull 概率图。
 """)
     add_figure(doc, 'fig07_weibull.png',
-               '图 7-1  两厂商 SAPC 产品 THB 试验失效时间的 Weibull 概率图')
+               '图 7-1  两厂商 SAPC 产品 THB 试验失效时间的 Weibull 概率图 (数据形式参考 Liu & Pecht, IEEE T-CPMT, 2017 [14] 与 Teverovsky, NASA/NEPP, 2024 [18])')
 
     add_body(doc, """
 除两参数 Weibull 外，对数正态分布 (lognormal) 也常用于 SAPC 寿命拟合，特别是当失效机理涉及多步扩散过程 (如水分扩散→PSS 水解→Al₂O₃ 腐蚀) 时。一般规律是：若 β > 1.5 则 Weibull 更合适；若分布严重偏正则 lognormal 更合适。实用上常同时拟合两种分布并根据 K-S 检验或 Anderson-Darling 检验选择更合适的分布 [58]。
@@ -44,7 +44,7 @@ NASA NEPP 的 Teverovsky 进一步提出混合 Weibull 模型，即用两组 Wei
 其中 k = 8.617×10⁻⁵ eV/K 为玻尔兹曼常数。对 SAPC，PEDOT 降解的 E_a 经 Teverovsky 2024 [18] 的 HALT 数据拟合约为 0.73 eV。图 7-2 展示了基于此激活能的寿命外推：在 85°C 使用条件下外推的 t₆₃ 约为 10⁴ h；在 65°C 则延长至约 5×10⁴ h (约 5.7 年)。
 """)
     add_figure(doc, 'fig08_arrhenius.png',
-               '图 7-2  基于 E_a = 0.73 eV 的 SAPC Arrhenius 寿命外推曲线')
+               '图 7-2  基于 E_a = 0.73 eV 的 SAPC Arrhenius 寿命外推曲线 (激活能源自 Teverovsky, NASA/NEPP, 2024 [18]; Nelson, Wiley, 2004 [58] 提供数据统计框架)')
 
     add_body(doc, """
 对电压，加速因子 AF_V 通常遵循逆幂律 (inverse power law)：
@@ -123,7 +123,7 @@ PoF 模型的优点在于物理可解释性强，可以外推到 HALT 范围之�
 图 7-3 展示了基于 CNN-LSTM 的 SAPC RUL 预测示例。前 60% 观测期为训练数据，后 40% 为预测段；95% 置信区间随时间扩大，反映不确定性累积。
 """)
     add_figure(doc, 'fig13_rul.png',
-               '图 7-3  基于 CNN-LSTM 的 SAPC RUL 预测示例（实验数据 + 未来预测段）')
+               '图 7-3  基于 CNN-LSTM 的 SAPC RUL 预测示例（实验数据 + 未来预测段）(方法学参照 Zhu et al., MDPI Electronics, 2025 [29]; Soualhi et al., SAGE JRSS, 2022 [59])')
 
     add_body(doc, """
 数据驱动方法的关键挑战是"外推能力"——模型只能在训练数据的应力范围内给出可信预测；超出此范围则需物理模型辅助。因此混合建模 (physics-informed machine learning) 是当前的主流发展方向 [29][60]。
@@ -236,7 +236,7 @@ SAPC 工作电压/额定电压推荐比例：
 基于 ESR/LC 的在线监测 + 基于 CNN-LSTM 的 RUL 预测可以在 SAPC 发生硬失效前数百小时预警。这一策略已在部分 AI 数据中心和电动汽车中试点部署 [29]。
 """)
     add_figure(doc, 'fig14_apps.png',
-               '图 8-1  SAPC 在不同应用场景的适用性雷达图（与 MLCC、Al-liquid、Ta-polymer 对比）')
+               '图 8-1  SAPC 在不同应用场景的适用性雷达图（与 MLCC、Al-liquid、Ta-polymer 对比；数据源自 Panasonic [4]、Kyocera-AVX [6]、KEMET [16] 厂商应用笔记）')
 
     add_heading(doc, "8.5 未来发展与挑战", level=2)
     add_body(doc, """
@@ -531,6 +531,14 @@ def build_references(doc):
         "[63] Burton E.A., Schrom G., Paillet F., et al. FIVR — Fully integrated voltage regulators on 4th generation Intel Core SoCs. IEEE Applied Power Electronics Conference (APEC), 2014: 432-439.",
         "[64] Wu H., Liu G., Li Y., Bao Z. Self-powered, smart sensors for biomedical, mechanical, and environmental monitoring. Advanced Materials, 2021, 33(28): 2005681.",
         "[65] Murata Manufacturing. ECAS series conductive polymer aluminum capacitors: quality and safety environmental information. Murata Technical Notes, 2023.",
+        "[66] Hioki E.E. Corporation. Application Note: Conductive polymer capacitor impedance characterization with Chemical Impedance Analyzer IM3590. Hioki Technical Bulletin, 2023.",
+        "[67] Maguire M. Impedance spectroscopy: Randles or Debye — that is the question. Canadian Nuclear Laboratories Technical Report, 2023, DOI: 10.13140/RG.2.2.15653.68327.",
+        "[68] Black S.B., Lodge T.P. A physical interpretation of impedance at conducting polymer/electrolyte junctions. AIP Advances, 2014, 4(1): 017127.",
+        "[69] Piao J., Muda J.B., Ali M.S. Quality inspection on electrolytic capacitors using micro-computed tomography. Proceedings of SPIE, 2015, 9302: 93020L.",
+        "[70] Srivastava A., Borgesi M.A., McDougall B., et al. Assessing electronics with advanced 3D X-ray imaging techniques, nanoscale tomography, and deep learning. Journal of Failure Analysis and Prevention, 2024, 24: 1989-2013.",
+        "[71] Gregori I., Reis F.T., Magalhães-Paniago R., et al. Electrical and morphological evolution of PEDOT:PSS films under heat treatment in helium and atmospheric air. Journal of Surface Engineered Materials and Advanced Technology, 2012, 2(3A): 180-190.",
+        "[72] Chatterjee S., Singh A., Krishnamurthy S., et al. Raman spectroscopy and DFT calculations of PEDOT:PSS in a dipolar field. Physical Chemistry Chemical Physics (PCCP), 2022, 24(4): 2190-2200.",
+        "[73] Akdemir B.Ş., Kol S., Kizildağ N., Oral A.Y. Spectroscopic decoding of solvent treatments in PEDOT:PSS via XPS and EPR analysis of charge transport. Materials Research Express, 2025, 12(7): 075401.",
     ]
 
     for ref in refs:

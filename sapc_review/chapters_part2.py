@@ -124,97 +124,64 @@ Shi 等 2021 年在 J Mater Sci: Mater Electron [28] 上的工作通过 XRD 与 
 
 
 def build_chapter4(doc):
+    from ch4_expanded import (CH4_INTRO, CH4_SEC41, CH4_SEC42, CH4_SEC43,
+                               CH4_SEC44, CH4_SEC45, CH4_SEC46, CH4_CLOSE)
+
     add_heading(doc, "第四章 表征与检测方法", level=1)
+    add_body(doc, CH4_INTRO)
 
+    # ----- 4.1 电学参数 -----
     add_heading(doc, "4.1 电学参数表征", level=2)
-    add_body(doc, """
-SAPC 电学参数的基本测试包括电容量 C、等效串联电阻 ESR、损耗因数 DF、漏电流 LC。测试依据主要遵循 IEC 60384-25 和 IEC 60068 系列标准。
+    add_body(doc, CH4_SEC41)
 
-4.1.1 电容量 C
-对液态铝电解电容器一般在 100 Hz 或 120 Hz 测试；而 SAPC 由于其扁平的频响特性，C 测试可覆盖更宽的频率范围，业界常用的测试频率为 100 kHz。测试条件必须明确记录，因为 SAPC 的 C 在 1 kHz ~ 1 MHz 内下降不超过 5%，但低频 (< 100 Hz) 时因电极极化等因素会有所升高。
-
-4.1.2 等效串联电阻 ESR
-ESR 通常在 100 kHz 测试，采用 Keysight E4980AL、LCR 4284A 或等效设备。SAPC 的 ESR 显示出明显的负温度系数——这与液态铝电容的正温度系数相反，是由于 PEDOT 在低温下仍保持较高电导率，而 Al₂O₃/PEDOT 界面的声子散射在高温下加剧所致 [14]。这一特性使 SAPC 在低温下 (-40°C) 的 ESR 仅比常温 (25°C) 略高 20-30%，而液态铝电容的 ESR 在 -40°C 可比常温高 5-10 倍。
-
-4.1.3 损耗因数 DF (tanδ)
-DF = ESR·ωC，反映了介质与电极的综合损耗。SAPC 的 DF 在 100 kHz 时典型为 0.05-0.15。DF 的温度依赖性较弱，一般在整个工作温度范围内变化不超过 20%。
-
-4.1.4 漏电流 LC
-LC 是 SAPC 可靠性评估的关键参数。典型规格为 LC < 0.01 CV (μA)，其中 C 以 μF 计、V 以 V 计。例如 470 μF / 6.3V 器件的 LC 上限为 29.6 μA。LC 测试通常在额定电压下施加 1-5 分钟后读数，因为 LC 随时间存在瞬态充电电流，需要足够的稳定时间。
-
-从失效诊断角度看，LC 是 SAPC 最灵敏的健康指标之一——它可以在 ESR 和 C 尚未明显漂移之前就显著上升，成为早期失效的预警指标 [14][20]。
-""")
-
+    # ----- 4.2 EIS -----
     add_heading(doc, "4.2 电化学阻抗谱 (EIS)", level=2)
-    add_body(doc, """
-EIS 是 SAPC 机理诊断的最重要的电学手段之一。通过在 DC 偏置上叠加小幅度 (5-10 mV) 的正弦扰动、扫描频率 0.1 Hz ~ 1 MHz，可以获得器件的复阻抗 Z(ω) = Z' - jZ''。
-
-Nyquist 图 (-Z'' vs Z') 可显示 SAPC 的多个特征频率区间：
-(1) 高频段 (> 100 kHz)：电感区，对应 ESL；
-(2) 中高频 (1 kHz - 100 kHz)：纯阻区，对应 ESR 的高频极限；
-(3) 中频 (1 Hz - 1 kHz)：一个半圆或两个重叠半圆，对应 PEDOT/Al₂O₃ 界面的电荷转移过程；
-(4) 低频 (< 1 Hz)：近似垂直线段，对应主电容的容抗。
-
-图 2-5 为典型 SAPC 在加速老化过程中的 Nyquist 图演化。可以看到：(1) 高频极限 ESR 逐步向右移动；(2) 中频半圆直径不断扩大——这对应 PEDOT/Al₂O₃ 界面电荷转移阻抗的增加；(3) 低频容抗线的斜率逐步降低——这对应介质层老化引起的有效容量略有下降 [14][46][47]。
-""")
+    add_body(doc, CH4_SEC42)
     add_figure(doc, 'fig09_eis.png',
-               '图 4-1  SAPC 在 85°C/85%RH 加速老化过程中的 Nyquist 阻抗谱演化')
+               '图 4-1  SAPC 在 85°C/85%RH 加速老化过程中的 Nyquist 阻抗谱演化 (数据范式参照 Liu & Pecht, IEEE T-CPMT, 2017 [14]; Macdonald & Barsoukov, Wiley, 2005 [46])')
+    add_figure(doc, 'fig17_bode.png',
+               '图 4-2  SAPC 老化过程中 |Z|-f 与相位-频率 Bode 图 (Maguire, 2023 [67]; Liu & Pecht, 2017 [14])')
 
-    add_body(doc, """
-等效电路模型通常采用 R_s – (R_p ∥ C_p) – C_bulk 的 Randles 型结构，其中 R_s 为高频纯阻、R_p ∥ C_p 为界面电荷转移、C_bulk 为主体电容。通过复非线性最小二乘 (CNLS) 拟合可以获得各参数的物理值。老化早期 R_s 的上升主要由 PEDOT 电导率退化驱动；老化后期 R_p 和 R_s 同时上升反映了 PEDOT/Al₂O₃ 界面分层的累积 [14][16]。
-""")
-
+    # ----- 4.3 Micro-CT & C-SAM -----
     add_heading(doc, "4.3 X 射线显微 CT 与 C-SAM", level=2)
-    add_body(doc, """
-X 射线显微计算机断层扫描 (micro-CT) 可以无损地获取 SAPC 的三维内部结构，分辨率可达亚微米级。这一技术对以下失效分析有独特价值：
-(1) 观察叠层箔片的对齐度、粘结层均匀性、内部空洞分布；
-(2) 定位裂纹与分层；
-(3) 量化 PEDOT 的填充率。
+    add_body(doc, CH4_SEC43)
+    add_figure(doc, 'fig18_microct.png',
+               '图 4-3  Micro-CT 成像原理与典型 SAPC 内部缺陷重建特征 (成像原理参照 Piao et al., SPIE 9302, 2015 [69]; 器件结果示意参照 Teverovsky, NASA/NEPP, 2024 [18]; Liu, CALCE Tech Report, 2016 [19])')
 
-C 扫描超声显微镜 (C-SAM) 则主要用于探测封装内的分层 (delamination)。通过超声波在不同材料界面的反射系数差异，可以高灵敏度地发现干/湿界面 (例如环氧/引线框架分层处吸附的水汽)。CALCE 的 Liu 等使用 C-SAM 追踪了 SAPC 在 85°C/85%RH 下分层的时空演化，发现分层起始于环氧/阳极引线框架界面并逐步扩展至 PEDOT 区域 [19]。
-""")
-
+    # ----- 4.4 SEM/TEM/EDS -----
     add_heading(doc, "4.4 SEM / TEM / EDS 微结构分析", level=2)
-    add_body(doc, """
-SEM (扫描电镜) 与 TEM (透射电镜) 结合 EDS (能谱) 是 SAPC 失效微观分析的主力手段：
-(1) SEM + EDS 主要用于观察端电极、银浆层、碳层、PEDOT 表面形貌和元素分布；
-(2) TEM + EDS/EELS 主要用于观察 Al/Al₂O₃/PEDOT 界面的精细结构与 10 nm 级介质层完整性；
-(3) FIB (聚焦离子束) 制样可获得特定位置的横截面。
+    add_body(doc, CH4_SEC44)
 
-代表性的微观观测结果包括：
-- Al₂O₃ 层厚度均匀性：典型合格品为 ±15% 以内；
-- PEDOT 渗入深度：合格品应 ≥ 80% 的隧道深度；
-- Ag 迁移：在高温高湿下可在 PEDOT 表面观察到 Ag⁺ 的再沉积；
-- 分层位置：SEM 横截面中可识别出清晰的干涉线；
-- 热失控后的 PEDOT 碳化：在 TEM 中呈现为无定形的深色碳颗粒 [16][20][48]。
-""")
-
+    # ----- 4.5 TGA / DSC -----
     add_heading(doc, "4.5 TGA / DSC 热分析", level=2)
-    add_body(doc, """
-热重分析 (TGA) 与差示扫描量热 (DSC) 用于表征 PEDOT 阴极的热稳定性。典型 TGA 结果：
-- 室温~120°C：质量损失 < 3%，对应吸附水的挥发；
-- 120-250°C：质量略有损失，对应 Tos⁻ 或 PSS⁻ 中反阴离子的部分分解；
-- 250-320°C：显著失重，对应 PEDOT 主链断裂；
-- 320°C 以上：完全碳化。
+    add_body(doc, CH4_SEC45)
+    add_figure(doc, 'fig19_tga.png',
+               '图 4-4  PEDOT:PSS 在空气与 N₂ 气氛下的 TGA 曲线及四阶段降解解释 (Marciniak et al., Synth. Met., 2004 [23]; Gregori et al., J. Surf. Eng. Mater. Adv. Technol., 2012 [71])')
 
-DSC 主要用于观察聚合物玻璃化转变温度 (Tg) 与放热/吸热反应。典型 PEDOT:Tos 的 Tg 约为 160-180°C，PEDOT:PSS 的 Tg 可能更高。
-
-Marciniak 等 (2004) [23] 通过 DSC/TGA 系统研究了 PEDOT:PSS 的热降解机理，指出其降解分两阶段：第一阶段 (200-280°C) 主要是 PSS 链侧基 (-SO₃H) 的脱水；第二阶段 (280-400°C) 是 PEDOT 主链的分解。这一机理图景对 SAPC 在 125°C 长期工作下的化学老化速率估计提供了基础。
-""")
-
+    # ----- 4.6 FT-IR / Raman / XPS -----
     add_heading(doc, "4.6 FT-IR / Raman / XPS 化学分析", level=2)
-    add_body(doc, """
-FT-IR、Raman 光谱与 XPS 主要用于定量表征 PEDOT 的化学状态变化，是失效机理分析的核心工具。
+    add_body(doc, CH4_SEC46)
+    add_figure(doc, 'fig20_ftir.png',
+               '图 4-5  PEDOT:PSS 在 85°C/85%RH 老化前后的 FT-IR 光谱对比 (Gregori et al., 2012 [71]; Marciniak et al., Synth. Met., 2004 [23])')
+    add_figure(doc, 'fig16_raman.png',
+               '图 4-6  新制 PEDOT 与 85°C/85%RH 老化 1500 h 后 PEDOT 的 Raman 谱对比 (掺杂度分析参照 Chatterjee et al., PCCP, 2022 [72]; Kvarnström et al., Macromolecules, 2004 [49])')
+    add_figure(doc, 'fig15_xps_s2p.png',
+               '图 4-7  PEDOT 阴极的 XPS S 2p 峰分峰拟合示例 (分峰参数参照 Akdemir et al., Mater. Res. Express, 2025 [73]; Zotti et al., 2004 [50])')
 
-4.6.1 Raman 光谱
-PEDOT 的特征 Raman 峰包括 Cα=Cβ 伸缩振动 (1430 cm⁻¹)、Cα-Cα' 伸缩 (1270 cm⁻¹)、Cα-S 伸缩 (990 cm⁻¹) 等。老化过程中，1430 cm⁻¹ 峰强度下降、位置红移，表明 PEDOT 氧化程度降低 (去掺杂)；出现 1580 cm⁻¹ 附近的 D/G 峰则表明 PEDOT 已部分碳化 [49]。
-
-4.6.2 FT-IR
-FT-IR 可直接观察 PEDOT 主链是否存在 C=O、C-OH、-SO₃H 等降解产物。对于 PEDOT:PSS，FT-IR 中 1200 cm⁻¹ 附近的 S=O 振动峰强度随 PSS 水解而降低。
-
-4.6.3 XPS
-XPS 是 PEDOT 化学状态分析最强的手段。对 S 2p 峰进行分峰拟合可定量获得：(1) 中性硫 (S 2p_(3/2) ≈ 163.5 eV, 对应未掺杂 PEDOT)；(2) 氧化硫 (S 2p_(3/2) ≈ 164.5 eV, 对应 p-掺杂 PEDOT)；(3) 掺杂剂 S (S 2p_(3/2) ≈ 168.0 eV, 对应 Tos 或 PSS 的 SO₃⁻)。老化过程中，(2) 到 (1) 的比例变化直接反映了 PEDOT 去掺杂程度，这与其电导率下降幅度高度相关 [27][50]。
-
-此外，O 1s XPS 可识别 Al₂O₃ 介质层的水合程度 (530.5 eV 为 O²⁻；531.8 eV 为 OH⁻；533.0 eV 为 H₂O)，定量描述水汽对介质层的侵蚀程度 [48][51]。
-""")
+    # ----- 4.7 组合应用策略 -----
+    add_heading(doc, "4.7 表征方法的组合应用策略", level=2)
+    add_body(doc, CH4_CLOSE)
+    add_table(
+        doc,
+        ["失效现象", "一级方法", "二级方法", "目标证据链"],
+        [
+            ["ESR 上升、C 与 LC 微变", "EIS (识别 R_s 或 R_p 主导)", "FIB+SEM+Raman+XPS", "PEDOT 去掺杂 或 界面分层"],
+            ["LC 跑飞、ESR 微变", "C-SAM 定位分层", "Micro-CT+FT-IR+XPS (O1s)", "PSS 水解 + Al₂O₃ 羟基化"],
+            ["C 显著下降", "Micro-CT 定量 PEDOT 填充率", "TEM (Al₂O₃ 截面)", "有效电极面积损失"],
+            ["灾难性短路 (HALT)", "C-SAM+Micro-CT 定位", "FIB+TEM+Raman (D/G 带)", "PEDOT 局部碳化"],
+            ["外观变色/鼓胀", "光学显微 + C-SAM", "DSC/TGA+FT-IR", "环氧老化 或 PEDOT 降解副产物"],
+            ["端电极开路", "X 射线 2D 透视", "SEM 横截面 (IMC)", "Sn/Cu IMC 疲劳裂纹"],
+        ],
+        caption="表 4-1  SAPC 典型失效现象与表征方法组合决策矩阵"
+    )
     add_page_break(doc)

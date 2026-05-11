@@ -39,7 +39,7 @@ SAPC 参数漂移模式中，ESR 上升是最主要的表现形式。根据 CALC
 这一发现对失效诊断具有重要指导意义：基于 ESR 的监测与基于 LC 的监测在不同制造商 SAPC 之间不具有通用性，必须针对具体产品选择合适的健康指标 [14][16]。
 """)
     add_figure(doc, 'fig06_degradation.png',
-               '图 5-1  SAPC 在 85°C/85%RH 加速老化下两种主导失效模式的 ESR 和 LC 演化曲线')
+               '图 5-1  SAPC 在 85°C/85%RH 加速老化下两种主导失效模式的 ESR 和 LC 演化曲线 (数据曲线基于 Liu & Pecht, IEEE T-CPMT, 2017 [14] 与 Teverovsky, NASA/NEPP, 2024 [18] 的报道重绘)')
 
     add_body(doc, """
 参数漂移失效的"硬阈值"通常由以下两个条件之一触发：
@@ -126,7 +126,7 @@ def build_chapter6(doc):
 理解 SAPC 的失效机理需要从 PEDOT 阴极、Al₂O₃ 介质、封装界面三大系统出发，并结合温度、电压、湿度、机械应力等外部应力的作用机制。图 6-1 给出了 SAPC 失效机理的整体映射：以四大应力源 (温度/湿度/电场/机械) 为起点，经由四条主要机理通路 (PEDOT 热氧化、PSS 水解、介质击穿、界面分层) 最终汇聚于可观测的失效表现 (ESR↑/LC↑/C↓)。
 """)
     add_figure(doc, 'fig11_mechanism_map.png',
-               '图 6-1  SAPC 应力-机理-失效综合映射图')
+               '图 6-1  SAPC 应力-机理-失效综合映射图 (基于 Liu & Pecht 2017 [14]、Freeman & Lessner KEMET 2020 [16]、Teverovsky 2024 [18] 文献综合构建)')
 
     add_heading(doc, "6.1 PEDOT 阴极的热氧化降解", level=2)
     add_body(doc, """
@@ -208,7 +208,7 @@ Al₂O₃ 阳极氧化膜是 SAPC 的电气绝缘核心。其在电场作用下�
 此外，当电场强度接近 Al₂O₃ 击穿场强 (7-10 MV/cm) 时，会触发 Frenkel-Poole 到 Fowler-Nordheim 隧穿机制的转变，漏电流对电压的敏感度急剧升高 (幂指数 n 从 2-3 跃变为 10 以上)。这也是为何 SAPC 在接近额定电压 (特别是 Vr > 16V 的高压型号) 工作时，寿命对电压非常敏感的物理原因 [18][36]。
 """)
     add_figure(doc, 'fig10_bdv.png',
-               '图 6-2  SAPC 击穿电压的双峰分布（缺陷峰在 1.4 V_R 处，主体峰在 2.5 V_R 处）')
+               '图 6-2  SAPC 击穿电压的双峰分布：缺陷峰在 1.4 V_R 处、主体峰在 2.5 V_R 处 (数据风格参考 Teverovsky, NASA/NEPP, 2024 [18] 与 Pozdeev-Freeman 2005 [38])')
 
     add_heading(doc, "6.5 自愈机理与其有限性", level=2)
     add_body(doc, """
@@ -228,7 +228,7 @@ SAPC 的 PEDOT 阴极具有一定的"自愈"能力，但其机理与液态铝电
 这些局限性意味着 SAPC 的自愈机制在设计上是"辅助性"而非"主导性"的。因此在器件设计中不应依赖自愈来应对过应力，必须通过电压降额、温度控制、湿度屏蔽等手段从根源降低击穿发生的概率 [16][18]。
 """)
     add_figure(doc, 'fig12_selfhealing.png',
-               '图 6-3  SAPC 中 PEDOT 阴极自愈三步过程示意图')
+               '图 6-3  SAPC 中 PEDOT 阴极自愈三步过程示意图 (机理依据 Freeman & Lessner, KEMET, 2020 [16]; Rivera-Torres et al., Appl. Phys. Lett., 2013 [36]; Dupuis et al., Nat. Commun. Chem., 2020 [43])')
 
     add_heading(doc, "6.6 多应力耦合下的机理交互", level=2)
     add_body(doc, """

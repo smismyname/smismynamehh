@@ -111,10 +111,11 @@ def build_toc(doc):
         ("第四章 表征与检测方法", "48"),
         ("    4.1 电学参数表征", "48"),
         ("    4.2 电化学阻抗谱 (EIS)", "51"),
-        ("    4.3 X 射线显微 CT 与 C-SAM", "54"),
-        ("    4.4 SEM / TEM / EDS 微结构分析", "56"),
-        ("    4.5 TGA / DSC 热分析", "58"),
-        ("    4.6 FT-IR / Raman / XPS 化学分析", "60"),
+        ("    4.3 X 射线显微 CT 与 C-SAM", "55"),
+        ("    4.4 SEM / TEM / EDS 微结构分析", "58"),
+        ("    4.5 TGA / DSC 热分析", "61"),
+        ("    4.6 FT-IR / Raman / XPS 化学分析", "63"),
+        ("    4.7 表征方法的组合应用策略", "68"),
         ("第五章 SAPC 典型失效模式", "62"),
         ("    5.1 失效模式分类框架", "62"),
         ("    5.2 参数漂移模式 (ESR / C / DF)", "64"),
@@ -143,10 +144,7 @@ def build_toc(doc):
         ("    8.4 应用与系统级改进", "112"),
         ("    8.5 未来发展与挑战", "114"),
         ("结 论", "116"),
-        ("附录 A  符号与缩略语表", "118"),
-        ("附录 B  加速试验设计范例", "120"),
-        ("附录 C  典型案例分析", "122"),
-        ("参考文献", "126"),
+        ("参考文献", "118"),
     ]
     for item, page in items:
         p = doc.add_paragraph()
@@ -169,7 +167,7 @@ def build_chapter1(doc):
 从功能角度，SAPC 可视为一种"低 ESR、低 ESL、高纹波耐受、无电解液蒸发寿命瓶颈"的中高容量 SMT 电容器，其主要竞争对手是 CPU/GPU 供电环节使用的钽聚合物电容器 (Ta-polymer capacitor) 与大容量 MLCC。在 Panasonic 官方技术文献中，SP-Cap 被明确定位为"针对 DC-DC 转换器输入输出滤波的高端 SMT 电容"，并推荐用于对电压稳定度、低纹波、耐回流焊温度有严格要求的场景 [4]。
 """)
     add_figure(doc, 'fig02_structure.png',
-               '图 2-1  SAPC 典型横截面分层结构示意图（蚀刻铝阳极 + Al₂O₃ 介质 + PEDOT 阴极 + 碳/银浆过渡层 + Cu 引线框架 + 环氧封装）')
+               '图 1-0  SAPC 典型横截面分层结构示意图（蚀刻铝阳极 + Al₂O₃ 介质 + PEDOT 阴极 + 碳/银浆过渡层 + Cu 引线框架 + 环氧封装）（器件结构参考 Panasonic SP-Cap Datasheet [4]; Kyocera-AVX APV Datasheet [6]; Liu 2015 博士论文 [13]）')
 
     add_heading(doc, "1.2 历史演化与技术代际", level=2)
     add_body(doc, """
@@ -186,7 +184,7 @@ SAPC 的技术演化可大致划分为以下五个阶段：
 (5) 新材料与智能化阶段 (2020 年以来)。伴随 AI 服务器、电动汽车与 5G/6G 基站对电容器高温可靠性提出的新要求，Panasonic 于 2022 年发布了 KX 系列"125°C/5500h"长寿命 SP-Cap，号称行业最长耐久性 [17]；与此同时 NASA NEPP 的 Teverovsky 博士于 2024 年发布了《Stress Testing of Chip Aluminum Polymer Capacitors》报告，首次系统给出了 SAPC 在 125°C/1.9 倍额定电压下的 HALT 数据与激活能估计 [18]；机器学习方法也开始被引入 SAPC 的 RUL 预测。
 """)
     add_figure(doc, 'fig01_market.png',
-               '图 1-1  2023 年全球电容器出货量按类型分布示意图（SAPC 占约 3%，但在高端 VRM 场景中占比显著更高）')
+               '图 1-1  2023 年全球电容器出货量按类型分布示意图（数据基于 Paumanok Publications 与 Yole 产业报告 [11]，SAPC 占约 3% 但在高端 VRM 场景中占比显著更高）')
 
     add_heading(doc, "1.3 在电力电子系统中的地位", level=2)
     add_body(doc, """
@@ -202,24 +200,14 @@ SAPC 的技术演化可大致划分为以下五个阶段：
 第四，在对信号完整性要求苛刻的高速串行总线 (PCIe Gen5/6、112 Gb/s SerDes) 设计中，SAPC 凭借 2~3 nH 的典型 ESL 与平坦的中高频阻抗，成为局部旁路网络 (local decoupling network, LDN) 的重要组成部分。
 """)
     add_figure(doc, 'fig05_esr_compare.png',
-               '图 1-2  五类主流电容器的阻抗频率响应对比（SAPC 在 10 kHz ~ 1 MHz 范围内具有最低的 |Z|）')
+               '图 1-2  五类主流电容器的阻抗频率响应对比 (|Z| vs f)（数据源自 Panasonic [4]、Kyocera-AVX [6]、Hioki 应用笔记 [65] 等厂商公开数据；SAPC 在 10 kHz ~ 1 MHz 范围内具有最低 |Z|）')
 
     add_heading(doc, "1.4 国内外研究现状综述", level=2)
-    add_body(doc, """
-针对 SAPC 的学术研究可大致归为四条主线。
 
-第一条主线是失效物理与可靠性。美国马里兰大学 CALCE 团队的 Liu、Azarian、Pecht 等自 2013 年起系统开展了 SAPC 在高温高湿偏压下的失效研究 [13][14][15]。其代表性成果包括：2015 年博士论文 "Reliability Evaluation of Liquid and Polymer Aluminum Electrolytic Capacitors" 给出了 SAPC 与液态铝电容器在寿命建模维度上的对比 [13]；2016 年工作首次提出"封装几何影响水汽驱动退化"的定量观测 [19]；2017 年发表于 IEEE Transactions on CPMT 的文章报告了两家不同厂商 SAPC 分别呈现 ESR 跑飞和 LC 跑飞两种主导模式 [14]；2020 年 CALCE CWS 系列报告进一步扩展到叠层多片结构 PA 电容的可靠性评估 [15]。这一系列工作奠定了当前学术界对 SAPC 可靠性的基本认识框架。
+    from ch1_expanded import CH1_SEC14_TEXT
+    add_body(doc, CH1_SEC14_TEXT)
 
-NASA 元器件可靠性项目 NEPP 的 Teverovsky 博士自 2016 年起持续跟踪钽聚合物电容与聚合物铝电容的空间应用可靠性 [20][21][22]。其 2024 年发表的 Stress Testing of Chip Aluminum Polymer Capacitors 报告基于 85°C 与 125°C、1.2~1.9 倍额定电压的 HALT 实验，拟合得到激活能约 0.7 eV、电压指数约 3~4，为航天应用的 SAPC 寿命外推提供了可信依据 [18]。
-
-第二条主线是导电聚合物阴极材料。Bayer (现 Heraeus) 公司对 PEDOT/PSS 体系的长期研究形成了 CLEVIOS™ 系列产品 [9]。学术界对 PEDOT 热稳定性 [23]、PSS 酸性水解 [24]、PEDOT:PSS 的吸湿膨胀行为 [25][26]、PEDOT 在光/氧/水共同作用下的降解 [27] 都开展了系统的分子尺度研究。Shi 等 2021 年在 J Mater Sci: Mater Electron 上发表的气相聚合 (VPP) PEDOT 薄膜制备工艺对叠层固态电容器给出了新的工艺路线 [28]。
-
-第三条主线是工艺与器件设计。日本企业、KEMET 与 Kyocera-AVX 长期主导叠层结构、引线框架布局、多层端电极沉积等工艺改进。Freeman (KEMET) 等指出，相较于 in-situ 聚合的 PEDOT:Tos，采用预聚合 PEDOT:PSS 分散液在高湿条件下稳定性显著更优 [16]。Panasonic 2022 年 KX 系列白皮书披露了其在"端电极双层密封 + 低吸湿环氧"方面的工艺改进 [17]。
-
-第四条主线是数据驱动预测。Zhu 等 2025 年在 MDPI Electronics 发表的 CNN-LSTM 模型考虑了参数离散度的影响，对聚合物铝电容和钽电容的 RUL 给出了较传统 LSTM 更高的预测精度 [29]。此外，基于物理信息神经网络 (PINN) 的方法正在快速发展，可望在小样本条件下获得更好的外推性。
-
-然而，截至 2025 年中，SAPC 领域仍有若干重要问题悬而未决：(1) PEDOT 阴极在高湿下的去掺杂与 PSS 水解机理在分子尺度上尚缺乏定量统一描述；(2) 叠层结构中每一层 Al₂O₃/PEDOT 界面的独立寿命分布与并联/串联统计模型仍待完善；(3) 多应力耦合（温度 × 电压 × 湿度 × 纹波电流 × 振动）下的加速等效关系仍缺少实验验证；(4) 基于机器学习的 RUL 预测在工业现场的部署仍处于示范阶段，尚未大规模商用。
-""")
+    # (old sec 1.4 content removed - now imported from ch1_expanded.py)
 
     add_heading(doc, "1.5 本综述的范围、方法与组织", level=2)
     add_body(doc, """
@@ -227,7 +215,7 @@ NASA 元器件可靠性项目 NEPP 的 Teverovsky 博士自 2016 年起持续跟
 
 本综述采用"纵向链 + 横向比较"的二维组织方法：纵向链指的是"材料与结构 → 制造工艺 → 表征方法 → 失效模式 → 失效机理 → 可靠性建模 → 工艺改进"的研究闭环；横向比较则针对不同制造商 (Panasonic/Nichicon/KEMET/Chemi-Con/AVX) 、不同工艺路线 (in-situ/pre-polymerized/VPP) 、不同介质厚度与电压等级进行跨对象分析。
 
-全综述共包含 8 个主要章节与 3 个附录：
+全综述共包含 8 个主要章节：
 第 1 章 绪论，确立研究背景；
 第 2 章 结构、材料与基本原理；
 第 3 章 制造工艺与工艺-可靠性耦合；
@@ -236,9 +224,7 @@ NASA 元器件可靠性项目 NEPP 的 Teverovsky 博士自 2016 年起持续跟
 第 6 章 失效机理；
 第 7 章 可靠性建模方法；
 第 8 章 工艺改进与可靠性提升策略；
-附录 A 符号与缩略语表；
-附录 B 加速试验设计范例；
-附录 C 典型案例分析；
+结论；
 参考文献。
 
 希望本综述能够为电容器材料学家、可靠性工程师、电源系统设计者以及质量保证专业人员提供一份体系化的、具有代表性的参考文献。
@@ -277,7 +263,7 @@ def build_chapter2(doc):
 上述反应并非均匀腐蚀，而是沿 Al (100) 晶面优先蚀刻形成直径约 0.2~2 μm、深度 10~40 μm 的隧道状孔 (tunnel pits)。蚀刻隧道的密度、直径与深度分布直接决定了阳极箔的有效表面积放大倍率，从而决定单位面积电容。Du 等 (2019) 系统研究了隧道侧向分支层 (branched layer) 对比表面积的影响，指出过度的分支层反而会减小有效表面积，其关键是在主隧道伸长与分支生成之间的精确平衡 [32]。MDPI Metals (2025) 最新报道了通过控制痕量杂质元素 (Cu, Fe) 的钝化作用精确调控坑隙起始与生长的方法 [33]。
 """)
     add_figure(doc, 'fig03_etch_formation.png',
-               '图 2-2  铝阳极箔蚀刻 (tunnel pitting) 与阳极氧化 (formation) 工艺示意')
+               '图 2-2  铝阳极箔蚀刻 (tunnel pitting) 与阳极氧化 (formation) 工艺示意 (依据 Du et al., J. Mater. Sci., 2019 [32]; 以及 MDPI Metals, 2025 最新综述 [33])')
 
     add_heading(doc, "2.3 Al₂O₃ 阳极氧化膜介质", level=2)
     add_body(doc, """
@@ -305,7 +291,7 @@ PEDOT (poly-3,4-ethylenedioxythiophene) 是 SAPC 阴极最主流的导电聚合�
 图 2-3 汇总了 PEDOT 的分子结构与三种主要沉积路线：
 """)
     add_figure(doc, 'fig04_pedot_chem.png',
-               '图 2-3  PEDOT 的化学结构及其在 SAPC 中的三种主要沉积工艺')
+               '图 2-3  PEDOT 的化学结构及其在 SAPC 中的三种主要沉积工艺 (in-situ / pre-polymerized PEDOT:PSS / VPP)，工艺对比参考 Groenendaal et al., Adv. Mater., 2000 [9]; Winther-Jensen, Macromolecules, 2004 [40]; Shi et al., J. Mater. Sci. Mater. Electron., 2021 [28]')
 
     add_body(doc, """
 (1) 在位化学聚合 (in-situ polymerization)：将 EDOT 单体与氧化剂 Fe(OTs)₃ 依次浸渍到蚀刻好的阳极箔上，在 50~80°C 下反应 0.5~2 小时生成 PEDOT:Tos。其优点是工艺成熟、电导率高 (200~500 S/cm)、对微孔填充能力好；缺点是反应过程伴随 Fe 残留与多次浸渍所带来的工艺变异性 [16][37]。
@@ -343,5 +329,5 @@ SAPC 的 ACV 等效电路可以由如下的集总参数模型描述：
 SAPC 的自谐振频率 f_SR = 1/(2π√(ESL·C))，典型值为 1~10 MHz。超过自谐振频率后，SAPC 表现为感性，不再具备电容滤波作用——这也解释了为什么在 100 MHz 以上的高频退耦环节仍需要并联 MLCC [4][5][41]。
 """)
     add_figure(doc, 'fig05_esr_compare.png',
-               '图 2-4  不同类型电容器的 |Z|-f 曲线对比（SAPC 在 10 kHz ~ 1 MHz 区间具有最低 |Z|）')
+               '图 2-4  不同类型电容器的 |Z|-f 曲线对比（数据基于 Panasonic [4]、AVX [6]、Hioki [65] 技术文档；SAPC 在 10 kHz ~ 1 MHz 区间具有最低 |Z|）')
     add_page_break(doc)
