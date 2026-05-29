@@ -726,7 +726,6 @@ def generate_all(outdir):
         fig_pinn_efficiency, fig_radar, fig_trl, fig_timeline, fig_country_share,
         fig_keyword_trend, fig_method_landscape, fig_impedance,
         fig_app_life, fig_app_radar, fig_derating, fig_degradation_traj,
-        fig_cn_landscape, fig_cn_growth,
     ]
     figs = {}
     for fn in funcs:

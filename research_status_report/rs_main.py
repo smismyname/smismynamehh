@@ -18,7 +18,6 @@ from rs_ch4 import build_chapter4
 from rs_ch5 import build_chapter5
 from rs_ch6 import build_chapter6
 from rs_ch_app import build_chapter_app
-from rs_ch_cn import build_chapter_cn
 from rs_ch7 import build_chapter7
 from rs_ch8 import build_chapter8
 from rs_refs import build_references
@@ -59,7 +58,6 @@ def main():
     build_chapter5(doc, FIGS)
     build_chapter6(doc, FIGS)
     build_chapter_app(doc, FIGS)
-    build_chapter_cn(doc, FIGS)
     build_chapter7(doc, FIGS)
     build_chapter8(doc, FIGS)
     build_references(doc)
