@@ -671,6 +671,49 @@ def fig_degradation_traj(outdir):
     return _save(fig, outdir, "fig_degradation_traj")
 
 
+def fig_cn_landscape(outdir):
+    """国内研究力量—主题活跃度示意矩阵（基于公开文献的定性归纳，用于刻画分布而非精确计量）。"""
+    themes = ["Solid Al/\npolymer (SAPC)", "Al-elec.\nDC-link", "MLCC\nreliability",
+              "Film SH", "Tantalum", "Supercap\nRUL", "Data-driven\n/PINN"]
+    actors = ["Universities", "CAS/Institutes", "Industry\n(Aihua/Jianghai etc.)"]
+    # 0-3 定性活跃度
+    M = np.array([
+        [2, 3, 3, 3, 2, 3, 3],   # universities
+        [2, 2, 3, 2, 2, 2, 2],   # CAS/institutes
+        [3, 3, 2, 2, 2, 2, 1],   # industry
+    ])
+    fig, ax = plt.subplots(figsize=(8.8, 3.4))
+    im = ax.imshow(M, cmap="OrRd", aspect="auto", vmin=0, vmax=3)
+    ax.set_xticks(range(len(themes))); ax.set_xticklabels(themes, fontsize=8)
+    ax.set_yticks(range(len(actors))); ax.set_yticklabels(actors, fontsize=9)
+    for i in range(M.shape[0]):
+        for j in range(M.shape[1]):
+            ax.text(j, i, ["–", "low", "mid", "high"][M[i, j]], ha="center",
+                    va="center", fontsize=8,
+                    color="white" if M[i, j] >= 2 else "#333333")
+    ax.set_title("China domestic research activity by theme and actor (qualitative)")
+    cbar = fig.colorbar(im, ax=ax, fraction=0.025, pad=0.02)
+    cbar.set_ticks([0, 1, 2, 3]); cbar.set_ticklabels(["–", "low", "mid", "high"])
+    return _save(fig, outdir, "fig_cn_landscape")
+
+
+def fig_cn_growth(outdir):
+    """国内电容器可靠性相关公开成果年度增长示意（定性趋势，非精确文献计量）。"""
+    yrs = np.arange(2010, 2026)
+    dom = np.array([3, 4, 6, 8, 10, 13, 17, 22, 28, 36, 45, 55, 66, 78, 90, 102])
+    intl = np.array([20, 23, 27, 31, 35, 40, 45, 50, 55, 60, 65, 70, 74, 78, 81, 84])
+    fig, ax = plt.subplots(figsize=(7.2, 4.0))
+    ax.plot(yrs, intl, "-o", color=C_INTL, lw=2, ms=3, label="International (cumulative idx)")
+    ax.plot(yrs, dom, "-s", color=C_DOM, lw=2, ms=3, label="China domestic (cumulative idx)")
+    ax.fill_between(yrs, dom, alpha=0.12, color=C_DOM)
+    ax.axvspan(2016, 2020, color="#9BBB59", alpha=0.10)
+    ax.text(2018, 12, "new-energy /\nEV driven surge", fontsize=8, ha="center", color="#5a6b2a")
+    ax.set_xlabel("Year"); ax.set_ylabel("Relative output index (a.u.)")
+    ax.set_title("Growth of China domestic capacitor-reliability research (illustrative)")
+    ax.legend(fontsize=9, loc="upper left")
+    return _save(fig, outdir, "fig_cn_growth")
+
+
 def generate_all(outdir):
     os.makedirs(outdir, exist_ok=True)
     funcs = [
@@ -683,6 +726,7 @@ def generate_all(outdir):
         fig_pinn_efficiency, fig_radar, fig_trl, fig_timeline, fig_country_share,
         fig_keyword_trend, fig_method_landscape, fig_impedance,
         fig_app_life, fig_app_radar, fig_derating, fig_degradation_traj,
+        fig_cn_landscape, fig_cn_growth,
     ]
     figs = {}
     for fn in funcs:
