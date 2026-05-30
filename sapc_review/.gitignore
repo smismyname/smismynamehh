@@ -1,0 +1,7 @@
+# 自动生成的图片（由 sapc_figures.py 重新生成）
+figs/
+# Python 缓存
+__pycache__/
+*.pyc
+# pyenv 本地版本（不随仓库分发）
+.python-version
